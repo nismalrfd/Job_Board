@@ -4,5 +4,8 @@ from django.urls import path, include
 from jobs import views
 
 urlpatterns = [
-    path('',views.home,name='home')
+    path('registerPage',views.registerPage,name='registerPage'),
+    path('login', views.loginPage, name='login'),
+    path('user', views.user, name='user'),
+
 ]
