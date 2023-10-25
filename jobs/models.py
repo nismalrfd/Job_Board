@@ -27,13 +27,28 @@ class Category(models.Model):
 
 class JobListing(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category,related_name='items',on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     expired = models.BooleanField(default=False)
     description = models.TextField()
     location = models.CharField(max_length=100)
-    created_by = models.ForeignKey(User, related_name='jobs', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+
+class JobSeeker(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # If using the built-in User model
+    full_name = models.CharField(max_length=100)
+    contact_email = models.EmailField()
+    skills = models.TextField()
+    resume = models.FileField(upload_to='job_seeker_resumes/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/', blank=True, null=True)
+
+
+class Application(models.Model):
+    job_employer = models.ForeignKey(JobListing, on_delete=models.CASCADE)
+    job_seeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
+    application_date = models.DateTimeField(auto_now_add=True)
+    # Add more fields specific to applications
