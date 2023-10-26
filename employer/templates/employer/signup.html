@@ -16,10 +16,12 @@
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+        <label for="password">Password:</label>
+            <input type="password" id="password" name="confirm_password" required>
 
             <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        <p>Don't have an account? <a href="{% url 'employer:employerLogin' %}">Sign up</a></p>
         {% if messages %}
 <ul class="messages">
     {% for message in messages %}

@@ -26,7 +26,7 @@ class Category(models.Model):
 
 
 class JobListing(models.Model):
-    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     expired = models.BooleanField(default=False)

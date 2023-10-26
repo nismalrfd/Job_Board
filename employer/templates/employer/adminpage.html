@@ -8,8 +8,20 @@
 </head>
 <body>
     <header>
-        <h1>Admin Dashboard</h1>
+        <h1>Admin Dashboard</h1><span><a href="{% url 'employer:update_employer_profile' %}">profile</a></span>
     </header>
+<a href="{% url 'employer:create_job_listing' %}">add jobs</a>
+{% for jobs in jobs %}
+<tr>
+            <th>{{jobs.user.created_by}}</th>
+            <th>{{jobs.category}}</th>
+            <th>{{jobs.title}}</th>
+     <th><a href="{% url 'employer:edit' jobs.id %}">edit</a></th>
+         <th><a href="{% url 'employer:delete' jobs.id %}">delete</a></th>
+
+
+        </tr>
+{% endfor %}
 
 </body>
 </html>

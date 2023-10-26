@@ -20,7 +20,7 @@
 
             <button type="submit">Sign up</button>
         </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <p>Already have an account? <a href="{% url 'employer:employerRegister' %}">Login</a></p>
         {% if messages %}
 <ul class="messages">
     {% for message in messages %}
