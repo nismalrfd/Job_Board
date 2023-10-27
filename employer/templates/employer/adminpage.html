@@ -22,6 +22,13 @@
 
         </tr>
 {% endfor %}
+{% for jobs in applications %}
+<tr>
+     <th>{{jobs.email}}</th>
+            <th>{{jobs.name}}</th>
+            <th>{{jobs.applicant.full_name}}</th>
+</tr>
+{% endfor %}
 
 </body>
 </html>

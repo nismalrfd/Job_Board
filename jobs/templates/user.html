@@ -10,6 +10,37 @@
     <header>
         <h1>user Dashboard</h1>
     </header>
+{% for jobs in jobs %}
+<tr>
+            <th>{{jobs.created_by}}</th><br>
+            <th>{{jobs.category}}</th><br>
+            <th>{{jobs.title}}</th><br>
 
+
+
+        </tr>
+<a href="{% url 'apply_for_job' jobs.id %}">apply</a>
+{% endfor %}
+
+                {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% for jobs in applications %}
+<tr>
+            <th>{{jobs.job.}}</th><br>
+            <th>{{jobs.title}}</th><br>
+            <th>{{jobs.category}}</th><br>
+                <th>{{jobs.created_at}}</th><br>
+
+
+
+
+        </tr>
+{% endfor %}
 </body>
 </html>

@@ -1,7 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from employer.forms import NewJobForm, EditJobForm, EmployerUserForm
@@ -62,7 +60,7 @@ def employerLogin(request):
         user_obj = User.objects.filter(username=username)
         if not user_obj.exists():
             messages.warning(request, 'User not Found ')
-            return redirect('/employerLogin')
+            return redirect('employer:employerLogin')
         # if not Profile.objects.filter(user = user_obj).first().is_verified:
         #     messages.warning(request, 'your profile not verified..')
         #     raise Exception('profile not verified')
@@ -81,8 +79,10 @@ def employerLogin(request):
 
 def employer(request):
     jobs= JobListing.objects.filter(created_by=request.user)
+    applications = Application.objects.filter(job__created_by=request.user)
     context={
-        'jobs':jobs
+        'jobs':jobs,
+        'applications':applications
     }
     return render(request, 'employer/adminpage.html',context)
 
@@ -165,3 +165,4 @@ def update_employer_profile(request):
     }
 
     return render(request, 'employer/employer_profile.html', context)
+

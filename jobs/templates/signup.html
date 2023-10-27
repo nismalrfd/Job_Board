@@ -12,7 +12,17 @@
         <form  method="post">
             {% csrf_token %}
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" required><br>
+                <label for="username">full_name:</label>
+            <input type="text" id="username" name="full_name" required><br>
+                <label for="username">contact_email:</label>
+            <input type="text" id="username" name="contact_email" required><br>
+                <label for="username">skills:</label>
+            <input type="text" id="username" name="skills" required><br>
+             <label for="username">resume:</label>
+            <input type="file" id="username" name="resume" required><br>
+             <label for="username">profile_picture:</label>
+            <input type="file" id="username" name="profile_picture" required><br>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
@@ -22,7 +32,14 @@
 
             <button type="submit">Sign up</button>
         </form>
-        <p>Already have an account? <a href="{% url 'employer:adminlogin' %}">Login</a></p>
+        <p>Already have an account? <a href=>Login</a></p>
+                {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
     </div>
 </body>
 </html>

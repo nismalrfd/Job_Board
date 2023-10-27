@@ -48,7 +48,9 @@ class JobSeeker(models.Model):
 
 
 class Application(models.Model):
-    job_employer = models.ForeignKey(JobListing, on_delete=models.CASCADE)
-    job_seeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
-    application_date = models.DateTimeField(auto_now_add=True)
-    # Add more fields specific to applications
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    resume = models.FileField(upload_to='resumes/')
+    cover_letter = models.TextField()
+    job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(JobSeeker,on_delete=models.CASCADE)
