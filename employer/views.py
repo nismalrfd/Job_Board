@@ -7,28 +7,43 @@ from django.shortcuts import render, redirect
 from employer.forms import NewJobForm, EditJobForm, EmployerUserForm
 from jobs.models import *
 
-
-# Create your views here.
 def employerRegister(request):
     if request.method == 'POST':
         try:
             username = request.POST.get('username')
+            company_name = request.POST.get('company_name')
+            contact_email = request.POST.get('contact_email')
+            website = request.POST.get('website')
+            description = request.POST.get('description')
+            logo = request.FILES.get('logo')
+
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
 
             user_obj = User.objects.filter(username=username)
             if user_obj.exists():
-                messages.warning(request, 'username already exists')
-                return redirect('employer:employerRegister')
-            if confirm_password and password and password != confirm_password:
-                messages.warning(request, 'password not matching !')
+                messages.warning(request, 'Username already exists')
                 return redirect('employer:employerRegister')
 
-            user_obj = User.objects.create(username=username)
-            user_obj.set_password(password)
-            user_obj.save()
+            if confirm_password != password:
+                messages.warning(request, 'Passwords do not match')
+                return redirect('employer:employerRegister')
 
-            # Profile.objects.create(user= user_obj,token = genarate_random_string(20))
+            user = User(username=username)
+            user.set_password(password)
+            user.save()
+
+            employer = Employer(
+                user=user,
+                company_name=company_name,
+                contact_email=contact_email,
+                website=website,
+                description=description,
+                logo=logo,
+            )
+            employer.save()
+
+            login(request, user)
 
             messages.success(request, 'Account created')
             return redirect('employer:employerLogin')
@@ -36,6 +51,7 @@ def employerRegister(request):
             messages.warning(request, 'Something went wrong')
 
     return render(request, 'employer/signup.html')
+
 
 
 def employerLogin(request):
@@ -111,20 +127,41 @@ def edit(request, pk):
 
 
 
-def update_employer_profile(request):
-    user=request.user
 
-    form = EmployerUserForm(instance=user)
+# def update_employer_profile(request):
+#     jobs = Employer.objects.get(user=request.user)
+#
+#     if request.method == 'POST':
+#         form = EmployerUserForm(request.POST, request.FILES, instance=request.user)
+#
+#         if form.is_valid():
+#             form.save()
+#             return redirect('employer:employer')  # Redirect to the employer's dashboard or profile page
+#     else:
+#         form = EmployerUserForm(instance=jobs)
+#     context = {
+#         'form': form,
+#         'jobs':jobs
+#     }
+#
+#     return render(request, 'employer/employer_profile.html', context)
+
+
+def update_employer_profile(request):
+    employer = Employer.objects.get(user=request.user)
 
     if request.method == 'POST':
-        form = EmployerUserForm(request.POST, request.FILES, instance=user)
+        form = EmployerUserForm(request.POST, request.FILES, instance=employer)
+
         if form.is_valid():
             form.save()
             return redirect('employer:employer')
+    else:
+        form = EmployerUserForm(instance=employer)
 
     context = {
         'form': form,
-        'user':user
+        'employer': employer
     }
 
-    return render(request, 'employer/employer_profile.html',context)
+    return render(request, 'employer/employer_profile.html', context)
