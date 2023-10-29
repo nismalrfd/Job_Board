@@ -1,0 +1,68 @@
+{% extends 'employer/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+<section class="py-6 px-6 bg-white">
+    <div class="md:flex md:items-center">
+        {% if employer %}
+
+        <div class="md:w-1/3">
+        {% if employer.logo %}
+            <img src="/employer_logos/{{employer.logo.url}}" alt="{{ employer.company_name }} Logo">
+        {% else %}
+            <p>No logo available</p>
+        {% endif %}
+        </div>
+
+        <div class="md:w-2/3 md:ml-6 mt-4 md:mt-0">
+            <h2 class="text-2xl font-semibold text-gray-800 uppercase"> {{employer.company_name}}</h2>
+            <p class="text-gray-600">{{employer.contact_email}}</p>
+            <p class="text-gray-600">{{employer.description}}</p>
+            <p class="text-gray-600">{{employer.website}}</p>
+            <button class="mt-4 bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600"><a href="{% url 'employer:update_employer_profile' %}">Update Profile</a></button>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-6 px-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Job Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Job Post 1 -->
+        {% for jobs in jobs %}
+
+            <div class="border p-4 rounded-md shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800">{{ jobs.title }}</h3>
+                <p class="text-gray-600">{{ jobs.category }}</p>
+                <div class="flex items-center justify-between mt-2">
+                    <span class="text-gray-400">{{ jobs.created_at }}</span>
+                    <span class="text-gray-400">{{ jobs.applicants_count }}54 applicants</span>
+                </div>
+                <button class="mt-4 bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Apply</button>
+            </div>
+
+        {% endfor %}
+
+    </div>
+</section>
+<section class="py-6 px-6">
+    <a  href="{% url 'employer:create_job_listing' %}" class="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Add New Job</a>
+</section>
+<section class="py-6 px-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Jobs Applied</h2>
+    <ul class="space-y-4">
+        <!-- Job 1 Applied -->
+        <li>
+            <div class="border p-4 rounded-md shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800">Job Title 1</h3>
+                <p class="text-gray-600">Job Description or Details</p>
+            </div>
+        </li>
+
+    </ul>
+</section>
+
+
+{% endblock %}

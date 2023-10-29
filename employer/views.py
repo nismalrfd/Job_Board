@@ -53,6 +53,7 @@ def employerRegister(request):
 
 
 def employerLogin(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -78,13 +79,18 @@ def employerLogin(request):
 
 
 def employer(request):
+    employer = Employer.objects.get(user=request.user)
+
     jobs= JobListing.objects.filter(created_by=request.user)
+
+
     applications = Application.objects.filter(job__created_by=request.user)
     context={
         'jobs':jobs,
-        'applications':applications
+        'applications':applications,
+        'employer':employer
     }
-    return render(request, 'employer/adminpage.html',context)
+    return render(request, 'employer/index.html',context)
 
 
 def create_job_listing(request):

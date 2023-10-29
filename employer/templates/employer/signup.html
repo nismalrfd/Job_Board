@@ -1,45 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h2> emp signup</h2>
-    <form  method="post">
-            {% csrf_token %}
-        <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br>
-          <label for="username">company_name:</label>
-            <input type="text" id="username" name="company_name" required><br>
-        <label for="username">contact_email:</label>
-            <input type="text" id="username" name="contact_email" required><br>
-          <label for="username">website:</label>
-            <input type="text" id="username" name="website" required><br>
-          <label for="username">description:</label>
-            <input type="text" id="username" name="description" required><br>
-          <label for="username">logo:</label>
-            <input type="file" id="username" name="logo" required><br>
+{% extends 'employer/base.html' %}
+{% block content %}
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-        <label for="password">Password:</label>
-            <input type="password" id="password" name="confirm_password" required><br>
+ <div class="container mx-auto flex justify-center items-center h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+            <h1 class="text-2xl font-semibold text-center mb-4">Login</h1>
 
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'employer:employerLogin' %}">Sign up</a></p>
-        {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+            {% if messages %}
+            <ul class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Logo Upload Field -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium">Company Name</label>
+                    <input type="text" name="company_name" id="company_name" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-medium">Email</label>
+                    <input type="email" name="email" id="email" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label  class="block text-gray-700 font-medium">Company Website</label>
+                    <input type="url" name="website" id="website" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="logo" class="block text-gray-700 font-medium">Logo</label>
+                    <input type="file" name="logo" id="logo" accept="image/*" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium">Description</label>
+                    <input type="text" name="description" id="description" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+                <div class="mb-4">
+                    <label  class="block text-gray-700 font-medium"> Username</label>
+                    <input type="text" name="username" id="username" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-medium">Password</label>
+                    <input type="password" name="password" id="password" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-medium">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="w-full p-2 border border-gray-400 rounded">
+                </div>
+
+
+                <!-- Sign Up Button -->
+                <div class="text-center">
+                    <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg">Sign Up</button>
+                </div>
+            </form>
+
+            <!-- Already Have an Account Link -->
+            <p class="mt-4 text-gray-600 text-center">Already have an account? <a href="{% url 'employer:employerLogin' %}" class="text-blue-500">Log in</a></p>
+        </div>
     </div>
-</body>
-</html>
+{% endblock %}

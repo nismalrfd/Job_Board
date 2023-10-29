@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+ 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    /* CSS for mobile view */
+    @media (max-width: 767px) {
+      /* Hiding the menu items initially in mobile view */
+      .menu-items {
+        display: none;
+      }
+
+      /* Show the menu items when the menu is clicked */
+      .menu-toggle:checked + .menu-items {
+        display: block;
+      }
+    }
+      .uppercase {
+        text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Header and Navigation -->
+  <nav class="py-6 px-6 md:flex md:justify-between md:items-center border-b border-gray-200">
+    <a href="/" class="text-xl font-semibold hover:text-sky-500">Job Nest</a>
+    <input type="checkbox" class="hidden md:hidden menu-toggle" id="menu-toggle">
+    <label for="menu-toggle" class="md:hidden block cursor-pointer">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </label>
+  </nav>
+
+        <div class="px-4 md:px-6 py-6">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+</body>
+</html>

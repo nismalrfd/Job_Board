@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Job Listing</title>
-</head>
-<body>
-    <h1>edit Job Listing</h1>
-    <form method="post">
-        {% csrf_token %}
+
+{% extends 'employer/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+<section class="py-6 px-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Job</h2>
+    <form class="bg-white p-4 rounded-md shadow-md" method="post">
+         {% csrf_token %}
                 {{ form.as_p }}
 
 
-        <input type="submit" value="Create Job Listing">
+        <button class="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Post Job</button>
     </form>
-</body>
-</html>
+</section>
+{% endblock %}

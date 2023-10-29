@@ -76,7 +76,7 @@ def loginPage(request):
                 return redirect('/user')
 
             messages.warning(request, 'wrong password ')
-            return redirect('login')
+            return redirect('loginPage')
 
         except Exception as e:
             messages.warning(request, 'Something went wrong')
@@ -85,16 +85,15 @@ def loginPage(request):
 
 
 def user(request):
-
     job = JobListing.objects.all()
 
-    applications= Application.objects.filter(applicant__user=request.user)
-    context={
+    applications = Application.objects.filter(applicant__user=request.user)
+    context = {
         'jobs': job,
         'applications': applications
 
     }
-    return render(request, 'user.html',context)
+    return render(request, 'user.html', context)
 
 
 # def apply_for_job(request, pk):
@@ -123,20 +122,33 @@ def user(request):
 #
 #
 def apply_for_job(request, pk):
+
     job = JobListing.objects.get(pk=pk)
-    job_seeker =JobSeeker.objects.filter(user=request.user)
-    # if Application.objects.filter(job=job, applicant=job_seeker).exists():
-    #     messages.warning(request, 'already applied')
-    #     return redirect('user')
+
+    applicant, created = JobSeeker.objects.get_or_create(user=request.user)
+
+    if Application.objects.filter(job=job, applicant=applicant).exists():
+        messages.warning(request, 'already applied')
+        return redirect('user')
 
     if request.method == 'POST':
         form = JobApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             application = form.save(commit=False)
             application.job = job
-            application.applicant = job_seeker  # Set the applicant to the current user's JobSeeker profile
+            application.applicant = applicant
             application.save()
-            return redirect('user')  # Redirect to the user's profile or a thank-you page
+
+            employer_email = job.created_by.email  # Assuming the employer's email is stored in the User model
+            subject = f'New Job Application for {job.title}'
+            message = f'A user has applied for the job: {job.title}. Please find the applicant\'s resume attached.'
+            from_email = 'your-email@example.com'  # The sender's email address
+            recipient_list = [employer_email]
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            return redirect('user')
+
     else:
         form = JobApplicationForm()
 
