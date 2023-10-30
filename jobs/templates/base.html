@@ -30,7 +30,7 @@
 
   <!-- Header and Navigation -->
 <nav class="py-6 px-6 md:flex md:justify-between md:items-center border-b border-gray-200">
-    <a href="{% url 'employer:employer' %}" class="text-xl font-semibold hover:text-sky-500">Job Nest</a>
+    <a href="{% url 'user' %}" class="text-xl font-semibold hover:text-sky-500">Job Nest</a>
     <div class="md:hidden flex items-center space-x-4">
         <input type="checkbox" class="hidden md:hidden menu-toggle" id="menu-toggle">
         <label for="menu-toggle" class="md:hidden block cursor-pointer">
@@ -41,14 +41,17 @@
     </div>
     <div class="md:flex items-center space-x-4">
         {% if request.user.is_authenticated %}
-        <a href="#" class="hover:text-sky-500">Profile</a>
-        <a href="{% url 'employer:logout' %}" class="hover:text-sky-500">Logout</a>
+        <a href="{% url 'user_profile_update' %}" class="hover:text-sky-500">Profile</a>
+        <a href="{% url 'logout' %}" class="hover:text-sky-500">Logout</a>
 
 
 
         {% else %}
-        <a href="{% url 'employer:employerLogin' %}" class="hover:text-sky-500">Login</a>
-        <a href="{% url 'employer:employerRegister' %}" class="hover:text-sky-500">Sign Up</a>
+        <a href="{% url 'registerPage' %}" class="hover:text-sky-500">Sign Up</a>
+        <a href="{% url 'login' %}" class="hover:text-sky-500">Login</a>
+        <a href="{% url 'employer:employerLogin' %}" class="hover:text-sky-500">Post Job</a>
+
+
 
 
         {% endif %}
@@ -57,7 +60,9 @@
     </div>
 </nav>
 
-        <div class="px-4 md:px-6 py-6">
+
+            <div class="px-4 md:px-6 py-6 flex flex-col items-center">
+
             {% block content %}
 
             {% endblock %}

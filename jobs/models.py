@@ -52,5 +52,6 @@ class Application(models.Model):
     email = models.EmailField()
     resume = models.FileField(upload_to='resumes/')
     cover_letter = models.TextField()
+    # apply_at = models.DateTimeField(auto_now_add=True)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
     applicant = models.ForeignKey(JobSeeker,on_delete=models.CASCADE)

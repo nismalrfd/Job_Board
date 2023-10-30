@@ -1,33 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h2>lofin up</h2>
-        <form  method="post">
-            {% csrf_token%}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+{% extends 'base.html' %}
+{% block content %}
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-
-            <button type="submit">Sign up</button>
-        </form>
-        <p>Already have an account? <a href="{% url 'registerPage' %}">Login</a></p>
-    </div>
+<div class="container mx-auto flex justify-center items-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
+        <h1 class="text-2xl font-semibold text-center mb-4">Login</h1>
         {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-</body>
-</html>
+        <ul class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                 <label class="block text-gray-700 font-medium">Username</label>
+                        <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label  class="block text-gray-700 font-medium">Confirm Password</label>
+                <input type="password" name="password"  class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <!-- Sign Up Button -->
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 text-white p-3 rounded-lg">Sign Up</button>
+            </div>
+        </form>
+        <!-- Already Have an Account Link -->
+           <p class="text-center mt-4">
+                Don't have an account? <a href="{% url 'registerPage' %}" class="text-sky-500 hover:underline">Sign Up</a>
+            </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from employer.forms import NewJobForm, EditJobForm, EmployerUserForm
@@ -78,6 +79,7 @@ def employerLogin(request):
     return render(request, 'employer/login.html')
 
 
+@login_required(login_url='/employer:employerLogin')
 def employer(request):
     employer = Employer.objects.get(user=request.user)
 
@@ -93,6 +95,7 @@ def employer(request):
     return render(request, 'employer/index.html',context)
 
 
+@login_required(login_url='/employer:employerLogin')
 def create_job_listing(request):
     if request.method == 'POST':
         form = NewJobForm(request.POST, request.FILES)
@@ -110,12 +113,15 @@ def create_job_listing(request):
     return render(request, 'employer/create_job_listing.html', context)
 
 
+@login_required(login_url='/employer:employerLogin')
 def delete(request, pk):
     jobs = JobListing.objects.get(pk=pk,created_by=request.user)
     jobs.delete()
     return redirect('employer:employer')
 
 
+
+@login_required(login_url='/employer:employerLogin')
 def edit(request, pk):
     jobs = JobListing.objects.get(pk=pk, created_by=request.user)
 
@@ -153,6 +159,9 @@ def edit(request, pk):
 #     return render(request, 'employer/employer_profile.html', context)
 
 
+
+
+@login_required(login_url='/employer:employerLogin')
 def update_employer_profile(request):
     employer = Employer.objects.get(user=request.user)
 
@@ -172,3 +181,6 @@ def update_employer_profile(request):
 
     return render(request, 'employer/employer_profile.html', context)
 
+def logout_view(request):
+    logout(request)
+    return redirect('employer:employerLogin')

@@ -1,6 +1,6 @@
 from django import forms
 
-from jobs.models import JobListing, Employer, Application
+from jobs.models import JobListing, Employer, Application, JobSeeker
 
 INPUT_CLASSES = 'w-full border rounded-md p-2'
 
@@ -70,7 +70,48 @@ class EmployerUserForm(forms.ModelForm):
             })
         }
 
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = JobSeeker
+        fields = ('full_name', 'contact_email', 'resume', 'skills', 'profile_picture')
+        widgets = {
+            'full_name': forms.TextInput(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'contact_email': forms.EmailInput(attrs={
+                'class': INPUT_CLASSES
+            }),
+
+            'skills': forms.Textarea(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'resume': forms.FileInput(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'profile_picture': forms.FileInput(attrs={
+                'class': INPUT_CLASSES
+            })
+        }
+
+
+INPUT_CLASSES1 = 'w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500'
+
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = ['name', 'email', 'resume', 'cover_letter']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': INPUT_CLASSES1
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'resume': forms.FileInput(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'cover_letter': forms.Textarea(attrs={
+                'class': INPUT_CLASSES
+            }),
+
+        }

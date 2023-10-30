@@ -1,9 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
-from employer.forms import JobApplicationForm
+from employer.forms import JobApplicationForm, EditUserForm
 from jobs.models import *
 
 
@@ -73,7 +74,7 @@ def loginPage(request):
 
             if user_obj:
                 login(request, user_obj)
-                return redirect('/user')
+                return redirect('/')
 
             messages.warning(request, 'wrong password ')
             return redirect('loginPage')
@@ -87,13 +88,23 @@ def loginPage(request):
 def user(request):
     job = JobListing.objects.all()
 
-    applications = Application.objects.filter(applicant__user=request.user)
+    # applications = Application.objects.filter(applicant__user=request.user)
     context = {
         'jobs': job,
-        'applications': applications
+        # 'applications': applications
 
     }
     return render(request, 'user.html', context)
+
+
+def job_details(request, pk):
+    job = JobListing.objects.get(pk=pk)
+    related_job = JobListing.objects.filter(category=job.category)
+    context = {
+        'job': job,
+        'related_job': related_job
+    }
+    return render(request, 'job_details.html', context)
 
 
 # def apply_for_job(request, pk):
@@ -121,35 +132,64 @@ def user(request):
 #
 #
 #
-def apply_for_job(request, pk):
-
-    job = JobListing.objects.get(pk=pk)
-
+@login_required(login_url='/login')
+def apply_for_job(request):
     applicant, created = JobSeeker.objects.get_or_create(user=request.user)
 
-    if Application.objects.filter(job=job, applicant=applicant).exists():
+    if Application.objects.filter(applicant=applicant).exists():
         messages.warning(request, 'already applied')
-        return redirect('user')
+        return redirect('/')
 
     if request.method == 'POST':
         form = JobApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             application = form.save(commit=False)
-            application.job = job
             application.applicant = applicant
             application.save()
 
-            employer_email = job.created_by.email  # Assuming the employer's email is stored in the User model
-            subject = f'New Job Application for {job.title}'
-            message = f'A user has applied for the job: {job.title}. Please find the applicant\'s resume attached.'
-            from_email = 'your-email@example.com'  # The sender's email address
-            recipient_list = [employer_email]
+            # employer_email = job.created_by.email  # Assuming the employer's email is stored in the User model
+            # subject = f'New Job Application for {job.title}'
+            # message = f'A user has applied for the job: {job.title}. Please find the applicant\'s resume attached.'
+            # from_email = 'your-email@example.com'  # The sender's email address
+            # recipient_list = [employer_email]
+            #
+            # send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            messages.success(request, 'Applied successfully')
 
-            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-
-            return redirect('user')
+            return redirect('/')
 
     else:
         form = JobApplicationForm()
 
     return render(request, 'job_application.html', {'form': form})
+
+
+@login_required(login_url='/login')
+def user_profile_update(request):
+    user = JobSeeker.objects.get(user=request.user)
+    context={
+        'user':user
+    }
+    return render(request, 'userProfile.html',context)
+
+@login_required(login_url='/login')
+def update_profile(request):
+    user = JobSeeker.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile_update')
+    else:
+        form = EditUserForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user
+    }
+    return render(request,'profileUpdate.html',context)
+def logout_view(request):
+    logout(request)
+    return redirect('login')

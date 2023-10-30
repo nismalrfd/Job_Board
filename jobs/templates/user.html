@@ -1,4 +1,4 @@
-{% extends 'employer/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Welcome{% endblock %}
 
@@ -30,8 +30,15 @@
         </div>
 
 
-
+                {% if messages %}
+                <ul class="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-3 rounded relative mb-4">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                 {% for jobs in jobs %}
                 <!-- First Card -->
                 <div class="p-6 bg-white rounded-xl shadow-lg flex">
@@ -51,7 +58,7 @@
                         <p class="text-sky-600 font-semibold">{{ jobs.category }}</p>
                     </div>
                     <div>
-                        <a href="/" class="text-sky-600 hover:underline">Apply Now</a>
+                        <a href="{% url 'job_details' jobs.id %}" class="text-sky-600 hover:underline">Apply Now</a>
                     </div>
                 </div>
             </div>

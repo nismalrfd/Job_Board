@@ -33,15 +33,25 @@
         <!-- Job Post 1 -->
         {% for jobs in jobs %}
 
-            <div class="border p-4 rounded-md shadow-md">
+                   <div class="border p-4 rounded-md shadow-md">
+            <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-800">{{ jobs.title }}</h3>
-                <p class="text-gray-600">{{ jobs.category }}</p>
-                <div class="flex items-center justify-between mt-2">
-                    <span class="text-gray-400">{{ jobs.created_at }}</span>
-                    <span class="text-gray-400">{{ jobs.applicants_count }}54 applicants</span>
+                <div class="flex space-x-2">
+                    <a href="{% url 'employer:edit' jobs.id %}">
+                        <button class="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Edit</button>
+                    </a>
+                    <a href="{% url 'employer:delete' jobs.id %}">
+                        <button class="bg-red-500 text-white rounded-md px-4 py-2 hover:bg-red-600">Delete</button>
+                    </a>
                 </div>
-                <button class="mt-4 bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Apply</button>
             </div>
+            <p class="text-gray-600">{{ jobs.category }}</p>
+            <div class="flex items-center justify-between mt-2">
+                <span class="text-gray-400">{{ jobs.created_at }}</span>
+                <span class="text-gray-400">{{ jobs.applicants_count }} applicants</span>
+            </div>
+        </div>
+
 
         {% endfor %}
 
@@ -52,16 +62,20 @@
 </section>
 <section class="py-6 px-6">
     <h2 class="text-xl font-semibold text-gray-800 mb-4">Jobs Applied</h2>
+    {% for applications in applications %}
     <ul class="space-y-4">
         <!-- Job 1 Applied -->
         <li>
             <div class="border p-4 rounded-md shadow-md">
-                <h3 class="text-lg font-semibold text-gray-800">Job Title 1</h3>
-                <p class="text-gray-600">Job Description or Details</p>
+                <h3 class="text-lg font-semibold text-gray-800">Job Title: {{applications.job.title}}</h3>
+                <p class="text-gray-600">{{applications.applicant.full_name}}</p>
+            <p class="text-gray-600">Applied Date: October 30, 2023</p>
+
             </div>
         </li>
 
     </ul>
+    {% endfor %}
 </section>
 
 

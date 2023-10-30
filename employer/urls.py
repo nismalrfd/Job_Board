@@ -18,8 +18,6 @@ urlpatterns = [
     path('edit/<int:pk>/', views.edit, name='edit'),
 
     path('update_employer_profile/', views.update_employer_profile, name='update_employer_profile'),
+    path('logout', views.logout_view, name='logout'),
 
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

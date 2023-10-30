@@ -1,0 +1,64 @@
+ {% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <!-- Job Title -->
+            <h1 class="text-3xl font-semibold text-sky-500">{{ job.title }}</h1>
+
+            <!-- Location and Posted Date -->
+            <div class="flex items-center text-gray-500 my-4">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <p>{{ job.category }}</p><sapan></sapan>
+                <i class="far fa-calendar-alt ml-8 mr-2"></i>
+                <p>Posted on: {{job.created_at}}</p>
+            </div>
+
+            <!-- Job Description -->
+            <p class="text-lg text-gray-700">{{ job.description }}</p>
+
+            <!-- Apply Button -->
+            <div class="mt-6">
+                <a href="{% url 'apply_for_job' %}" class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-lg text-sm font-semibold">Apply Now</a>
+            </div>
+
+            <!-- Company Details -->
+            <div class="mt-8">
+                <h2 class="text-xl font-semibold text-sky-500">Company Details</h2>
+                <p class="text-lg text-gray-700">{{ job.created_by }}</p>
+                <p class="text-lg text-gray-700">{{ job.company_name }}</p>
+                <p class="text-lg text-gray-700">{{ job.contact_email }}</p>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Job List -->
+        <div class="w-full max-w-screen-xl mx-auto">
+            <h2 class="text-2xl font-semibold text-sky-500">Related Jobs</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Related Job Card 1 -->
+                {% for related_job in related_job%}
+
+                <div class="p-6 bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+                    <!-- Job Title -->
+                     <h3 class="text-lg font-semibold text-sky-500">{{ related_job.title }}</h3>
+                    <!-- Location -->
+                    <p class="text-gray-600 mt-2">Location: {{ related_job.category }}</p>
+                    <!-- Company Name -->
+                    <p class="text-gray-600 mt-2">Company: {{ related_job.user.company_name }}</p>
+                    <!-- Job Type -->
+                    <p class="text-gray-600 mt-2">Posted: {{ related_job.created_at }}</p>
+                    <!-- Apply Button -->
+                    <div class="mt-4">
+                        <a href="{% url 'job_details' related_job.id %}" class="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 rounded-md text-sm font-semibold inline-block transition-transform transform hover:scale-105">Apply Now</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
