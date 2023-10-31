@@ -1,0 +1,39 @@
+{% extends 'employer/base.html' %}
+{% block content %}
+
+<div class="px-4 md:px-6 py-6">
+        <div class="bg-white p-4 rounded shadow-lg">
+            <h2 class="text-2xl font-semibold">Applicant Details</h2>
+            <div class="mt-4">
+                <!-- User Profile Image -->
+                <img src="{{ applicant.applicant.profile_picture.url }}" alt="Profile Image" class="w-20 h-20 rounded-full object-cover">
+
+                <!-- Basic Information -->
+                <div class="mt-4">
+                    <p class="text-lg font-semibold">{{ applicant.name }} {{ applicant.applicant.full_name }}</p>
+                    <p class="text-gray-600">{{ applicant.email }}</p>
+                    <p class="text-gray-600">{{ applicant.applicant.contact }}</p>
+                </div>
+
+                <!-- Skills with Gray Background -->
+                <div class="mt-4">
+                    <h3 class="text-lg font-semibold">Skills</h3>
+                    <div class="flex flex-wrap -m-2">
+                        <div class="m-2 p-2 bg-gray-200 rounded-md">
+                            {{ applicant.applicant.skill }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resume -->
+                <div class="mt-4">
+                    <h3 class="text-lg font-semibold">Resume</h3>
+                    <a href="{{ applicant.applicant.resume.url }}" class="text-blue-500 hover:underline" target="_blank">View Resume</a>
+                </div>
+
+                <!-- Other Details -->
+                <!-- Add other applicant details here using similar structure -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

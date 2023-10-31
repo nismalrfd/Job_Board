@@ -87,10 +87,17 @@ def employer(request):
 
 
     applications = Application.objects.filter(job__created_by=request.user)
+    applicant_count_dict = {}
+
+    for job in jobs:
+        applicant_count = Application.objects.filter(job=job).count()
+        applicant_count_dict[job.id] = applicant_count
+
     context={
-        'jobs':jobs,
+        'job':jobs,
         'applications':applications,
-        'employer':employer
+        'employer':employer,
+        'applicant_count':applicant_count
     }
     return render(request, 'employer/index.html',context)
 
@@ -158,6 +165,15 @@ def edit(request, pk):
 #
 #     return render(request, 'employer/employer_profile.html', context)
 
+
+def userDetails(request,pk):
+    applicant = Application.objects.get(pk=pk)
+
+    context={
+        'applicant':applicant
+    }
+
+    return render(request,'employer/userDetails.html',context)
 
 
 

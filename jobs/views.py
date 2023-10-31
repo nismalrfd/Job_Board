@@ -88,16 +88,21 @@ def loginPage(request):
 def user(request):
     job = JobListing.objects.all()
 
-    # applications = Application.objects.filter(applicant__user=request.user)
+    search_in = request.GET.get('query')
+    search = request.GET.get('location')
+
+    if search_in:
+        job = JobListing.objects.filter(category__name__icontains=search_in,
+                                       location__icontains=search)
+
     context = {
         'jobs': job,
-        # 'applications': applications
 
     }
     return render(request, 'user.html', context)
 
 
-def job_details(request, pk):
+def job_details(request,pk):
     job = JobListing.objects.get(pk=pk)
     related_job = JobListing.objects.filter(category=job.category)
     context = {
@@ -133,7 +138,8 @@ def job_details(request, pk):
 #
 #
 @login_required(login_url='/login')
-def apply_for_job(request):
+def apply_for_job(request,pk):
+    job = JobListing.objects.get(pk=pk)
     applicant, created = JobSeeker.objects.get_or_create(user=request.user)
 
     if Application.objects.filter(applicant=applicant).exists():
@@ -145,15 +151,9 @@ def apply_for_job(request):
         if form.is_valid():
             application = form.save(commit=False)
             application.applicant = applicant
-            application.save()
+            application.job = job
 
-            # employer_email = job.created_by.email  # Assuming the employer's email is stored in the User model
-            # subject = f'New Job Application for {job.title}'
-            # message = f'A user has applied for the job: {job.title}. Please find the applicant\'s resume attached.'
-            # from_email = 'your-email@example.com'  # The sender's email address
-            # recipient_list = [employer_email]
-            #
-            # send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            application.save()
             messages.success(request, 'Applied successfully')
 
             return redirect('/')
@@ -167,8 +167,12 @@ def apply_for_job(request):
 @login_required(login_url='/login')
 def user_profile_update(request):
     user = JobSeeker.objects.get(user=request.user)
+    applications = Application.objects.filter(applicant__user=request.user)
+
     context={
-        'user':user
+        'user':user,
+        'applications': applications
+
     }
     return render(request, 'userProfile.html',context)
 

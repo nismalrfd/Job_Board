@@ -3,68 +3,62 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-
-        <div class="px-4 py-6 ">
-            <div class="w-full max-w-screen-xl mx-auto">
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl font-semibold text-sky-500">Welcome to Our Job Board</h1>
-                    <p class="text-gray-600">Find your dream job with us. Search for jobs that match your skills and experience.</p>
-                </div>
-
-                <form action="/" method="GET" class="w-full md:w-3/4 mx-auto bg-white p-3 rounded-lg shadow-lg border border-gray-300">
-                    <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
-                        <i class="fas fa-search text-teal-500 mr-3"></i>
-                        <input type="text" name="query" class="appearance-none bg-transparent border-none w-1/2 text-gray-700 py-1 px-2 leading-tight focus:outline-none" placeholder="Search for jobs or job title">
-                        <i class="fas fa-map-marker-alt text-teal-500 mx-3"></i>
-                        <input type="text" name="location" class="appearance-none bg-transparent border-none w-1/2 text-gray-700 py-1 px-2 leading-tight focus:outline-none" placeholder="Search by location">
-                        <button type="submit" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 text-sm text-white py-1 px-4 rounded-lg focus:outline-none">Search</button>
-                    </div>
-                </form>
+    <div class="px-4 py-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-semibold text-sky-500">Welcome to Our Job Board</h1>
+                <p class="text-gray-600">Find your dream job with us. Search for jobs that match your skills and experience.</p>
             </div>
-            <div class="text-center my-6">
-            <button class="bg-gray-300 text-white px-4 py-2 mx-2 rounded-md hover:bg-gray-600" onclick="filterJobs('all')">All Categories</button>
-            <button class="bg-gray-300 text-white px-4 py-2 mx-2 rounded-md hover:bg-gray-600" onclick="filterJobs('category1')">Category 1</button>
-            <button class="bg-gray-300 text-white px-4 py-2 mx-2 rounded-md hover:bg-gray-600" onclick="filterJobs('category2')">Category 2</button>
+
+            <form action="/" method="GET" class="w-full md:w-3/4 mx-auto bg-white p-3 rounded-lg shadow-lg border border-gray-300">
+                <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+                    <i class="fas fa-search text-teal-500 mr-3"></i>
+                    <input type="text" name="query" class="appearance-none bg-transparent border-none w-1/2 text-gray-700 py-1 px-2 leading-tight focus:outline-none" placeholder="Search for jobs or job title">
+                    <i class="fas fa-map-marker-alt text-teal-500 mx-3"></i>
+                    <input type="text" name="location" class="appearance-none bg-transparent border-none w-1/2 text-gray-700 py-1 px-2 leading-tight focus:outline-none" placeholder="Search by location">
+                    <button type="submit" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 text-sm text-white py-2 px-4 rounded-lg focus:outline-none">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center my-6">
+            <button class="bg-sky-500 text-white px-4 py-2 mx-2 rounded-md hover:bg-sky-700">All Categories</button>
+            <button class="bg-sky-500 text-white px-4 py-2 mx-2 rounded-md hover:bg-sky-700">Category 1</button>
+            <button class="bg-sky-500 text-white px-4 py-2 mx-2 rounded-md hover:bg-sky-700">Category 2</button>
             <!-- Add more category buttons as needed -->
         </div>
-        </div>
 
+        {% if messages %}
+        <ul class="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-3 rounded relative mb-4">
+            {% for message in messages %}
+            <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
-                {% if messages %}
-                <ul class="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-3 rounded relative mb-4">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                {% for jobs in jobs %}
-                <!-- First Card -->
-                <div class="p-6 bg-white rounded-xl shadow-lg flex">
-                <!-- Profile Image (adjust the URL) -->
-                <div class="w-20 h-20 rounded-full overflow-hidden">
-                    <img src="path/to/profile-image.jpg" alt="Profile Image" class="w-full h-full object-cover">
-                </div>
+            {% for jobs in jobs %}
+            <!-- Card Design -->
+            <div class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-100">
+                <div class="p-6">
 
-                <div class="ml-6 flex-grow">
                     <h2 class="text-2xl font-semibold text-sky-500">{{ jobs.title }}</h2>
                     <p class="text-gray-500">Location: {{ jobs.location }}</p>
                     <p class="text-gray-500">Posted on: {{ jobs.created_at|date:"F j, Y" }}</p>
-                    <p class="mt-4">{{ jobs.description }}</p>
-                </div>
-                <div class="flex flex-col justify-between">
-                    <div>
+                    <div class="mt-4">
                         <p class="text-sky-600 font-semibold">{{ jobs.category }}</p>
                     </div>
-                    <div>
+                    <div class="mt-4">
                         <a href="{% url 'job_details' jobs.id %}" class="text-sky-600 hover:underline">Apply Now</a>
                     </div>
                 </div>
+                 {% empty %}
+                    <p class="text-sky-500 text-xl font-semibold text-center">No jobs found</p>
+
             </div>
-                {% endfor %}
 
-
+            {% endfor %}
         </div>
-
+    </div>
 {% endblock %}

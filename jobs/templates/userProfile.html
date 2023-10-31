@@ -1,56 +1,63 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-        <div class="max-w-3xl mx-auto bg-white p-6 rounded-md">
-      <h2 class="text-2xl font-semibold text-gray-800 text-center">User Profile</h2>
-      <!-- Profile Picture -->
-            {% if user %}
-      <div class="mb-4 flex justify-center">
-        <img src="{{user.profile_picture.url}}" alt="Profile Picture" class="w-32 h-32 rounded-full">
-      </div>
-      <!-- Profile Details -->
-      <div class="mb-4 text-center">
-        <p class="text-gray-600">Full Name: {{user.full_name}}</p>
-        <p class="text-gray-600">Email: {{user.contact_email}}</p>
-          <p class="text-gray-600">Address:{{ user.contact_number}}</p>
-
-        <p class="text-gray-600">Address:{{ user.address}}</p>
-      </div>
-      <!-- Update Profile Button -->
-      <div class="flex justify-center">
-        <a href="{% url 'update_profile' %}"><button class="bg-sky-500 text-white rounded-md px-4 py-2 hover:bg-sky-600">Update Profile</button></a>
-      </div>
-            {% endif %}
-
-
-    <!-- Applied Job List -->
-      <h2 class="text-2xl font-semibold text-gray-800 text-center">Applied Jobs</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Job 1 Applied -->
-        <div class="border p-4 rounded-md shadow-md">
-          <h3 class="text-lg font-semibold text-gray-800">Job Title 1</h3>
-          <p class="text-gray-600">Company: Company Name 1</p>
-          <p class="text-gray-600">Location: Job Location 1</p>
-          <p class="text-gray-600">Applied on: Date Applied 1</p>
+        <div class="text-center">
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white shadow-md">
+            <h1 class="text-2xl font-semibold text-gray-800">{{ user.full_name }}</h1>
+            <p class="text-gray-600">{{ user.job_title }}</p>
         </div>
-        <!-- Job 2 Applied -->
-        <div class="border p-4 rounded-md shadow-md">
-          <h3 class="text-lg font-semibold text-gray-800">Job Title 2</h3>
-          <p class="text-gray-600">Company: Company Name 2</p>
-          <p class="text-gray-600">Location: Job Location 2</p>
-          <p class="text-gray-600">Applied on: Date Applied 2</p>
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-800">Contact Information</h2>
+            <ul class="list-disc list-inside mt-2">
+                <li>{{ user.contact_email }}</li>
+                <li>{{ user.contact_number }}</li>
+                <li>{{ user.address }}</li>
+            </ul>
         </div>
-        <!-- Job 3 Applied -->
-        <div class="border p-4 rounded-md shadow-md">
-          <h3 class="text-lg font-semibold text-gray-800">Job Title 3</h3>
-          <p class="text-gray-600">Company: Company Name 3</p>
-          <p class="text-gray-600">Location: Job Location 3</p>
-          <p class="text-gray-600">Applied on: Date Applied 3</p>
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-800">About Me</h2>
+            <p class="text-gray-600">{{ user.about }}</p>
         </div>
-      </div>
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-800">Skills</h2>
+            <div class="flex flex-wrap mt-2">
+                <span class="bg-blue-500 text-white py-1 px-2 rounded-full text-xs mr-2 mb-2">Skill 1</span>
+                <span class="bg-blue-500 text-white py-1 px-2 rounded-full text-xs mr-2 mb-2">Skill 2</span>
+                <span class="bg-blue-500 text-white py-1 px-2 rounded-full text-xs mr-2 mb-2">Skill 3</span>
+                <!-- Add more skills here -->
+            </div>
         </div>
+<div class="mt-8">
+    <div class="p-4 bg-white rounded-lg shadow-md mt-4">
+        <p class="text-gray-600">To update your profile, click the button below:</p>
+        <div class="mt-4 flex justify-center">
+            <a href="{% url 'update_profile' %}">
+                <button class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600">Update Profile</button>
+            </a>
+        </div>
+    </div>
+</div>
 
-  
- {% endblock %}
+
+
+<div class="mt-8">
+    <h2 class="text-xl font-semibold text-gray-800">Applied Jobs</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        {% for application in applications %}
+        <!-- Applied Job -->
+        <div class="bg-white rounded-lg shadow-lg p-9">
+            <div class="text-center"> <!-- Center align text -->
+                <h3 class="text-lg font-semibold text-gray-800">{{ application.job.title }}</h3>
+                <p class="text-gray-600">Company: {{ application.job.created_by }}</p>
+                <p class="text-gray-600">Location: {{ application.job.location }}</p>
+                <p class="text-gray-600">Applied on: {{ application.apply_at }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
