@@ -6,6 +6,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
  	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <style>
     /* CSS for mobile view */
@@ -29,7 +30,7 @@
 
 
   <!-- Header and Navigation -->
-<nav class="py-6 px-6 md:flex md:justify-between md:items-center border-b border-gray-200">
+<nav class="py-6 px-6 md:flex md:justify-between md:items-center border-b bg-gray-200 border-gray-200">
     <a href="{% url 'user' %}" class="text-xl font-semibold hover:text-sky-500">Job Nest</a>
     <div class="md:hidden flex items-center space-x-4">
         <input type="checkbox" class="hidden md:hidden menu-toggle" id="menu-toggle">
@@ -61,11 +62,17 @@
 </nav>
 
 
-            <div class="px-4 md:px-6 py-6 flex flex-col items-center">
+            <div class="px-4 md:px-6 py-6 bg-gray-100 flex flex-col items-center">
 
             {% block content %}
 
             {% endblock %}
         </div>
+<div class="bottom-0 left-0 right-0 bg-gray-800 text-white p-4">
+    <div class="w-full max-w-screen-xl mx-auto">
+        <!-- Footer content goes here -->
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+</div>
 </body>
 </html>

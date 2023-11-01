@@ -81,24 +81,29 @@ def employerLogin(request):
 
 @login_required(login_url='/employer:employerLogin')
 def employer(request):
-    employer = Employer.objects.get(user=request.user)
+    try:
 
-    jobs= JobListing.objects.filter(created_by=request.user)
+        employer = Employer.objects.get(user=request.user)
+        jobs = JobListing.objects.filter(created_by=request.user)
 
 
-    applications = Application.objects.filter(job__created_by=request.user)
-    applicant_count_dict = {}
+        applications = Application.objects.filter(job__created_by=request.user)
+        # applicant_count_dict = {}
+        #
+        # for job in jobs:
+        #     applicant_count = Application.objects.filter(job=job).count()
+        #     applicant_count_dict[job.id] = applicant_count
 
-    for job in jobs:
-        applicant_count = Application.objects.filter(job=job).count()
-        applicant_count_dict[job.id] = applicant_count
+        context={
+            'job':jobs,
+            'applications':applications,
+            'employer':employer,
+            # 'applicant_count':applicant_count
+        }
+    except Employer.DoesNotExist:
+        messages.warning(request,'Something went wrong')
+        return redirect('/employer/employerLogin/')
 
-    context={
-        'job':jobs,
-        'applications':applications,
-        'employer':employer,
-        'applicant_count':applicant_count
-    }
     return render(request, 'employer/index.html',context)
 
 

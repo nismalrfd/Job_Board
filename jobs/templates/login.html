@@ -14,22 +14,62 @@
         <form method="post">
             {% csrf_token %}
             <div class="mb-4">
-                 <label class="block text-gray-700 font-medium">Username</label>
-                        <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                <label class="block text-gray-700 font-medium">Username</label>
+                <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
             </div>
             <div class="mb-4">
-                <label  class="block text-gray-700 font-medium">Confirm Password</label>
-                <input type="password" name="password"  class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                <label class="block text-gray-700 font-medium">Password</label>
+                <div class="relative rounded-lg">
+                    <input type="password" name="password" id="password" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                    <span id="showPassword" class="absolute top-1/2 right-3 transform -translate-y-1/2 text-blue-500 cursor-pointer" onclick="togglePasswordVisibility()">Show</span>
+                </div>
             </div>
-            <!-- Sign Up Button -->
-            <div class="text-center">
-                <button type="submit" class="bg-blue-500 text-white p-3 rounded-lg">Sign Up</button>
+            <!-- Sign Up Button (disabled by default) -->
+            <div id="signUpButton" class="text-center">
+                <button type="submit" class="bg-gray-400 text-white p-3 rounded-lg" disabled>Sign Up</button>
             </div>
         </form>
         <!-- Already Have an Account Link -->
-           <p class="text-center mt-4">
-                Don't have an account? <a href="{% url 'registerPage' %}" class="text-sky-500 hover:underline">Sign Up</a>
-            </p>
+        <p class="text-center mt-4">
+            Don't have an account? <a href="{% url 'registerPage' %}" class="text-sky-500 hover:underline">Sign Up</a>
+        </p>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var showPasswordButton = document.getElementById("showPassword");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            showPasswordButton.innerText = "Hide";
+        } else {
+            passwordInput.type = "password";
+            showPasswordButton.innerText = "Show";
+        }
+    }
+
+    // Add an event listener to enable the "Sign Up" button when both fields have content
+    var usernameInput = document.getElementById("username");
+    var passwordInput = document.getElementById("password");
+    var signUpButton = document.getElementById("signUpButton").querySelector("button");
+
+    usernameInput.addEventListener("input", toggleSignUpButtonVisibility);
+    passwordInput.addEventListener("input", toggleSignUpButtonVisibility);
+
+    function toggleSignUpButtonVisibility() {
+        if (usernameInput.value && passwordInput.value) {
+            signUpButton.disabled = false;
+            signUpButton.classList.remove("bg-gray-400");
+            signUpButton.classList.add("bg-blue-500");
+        } else {
+            signUpButton.disabled = true;
+            signUpButton.classList.remove("bg-blue-500");
+            signUpButton.classList.add("bg-gray-400");
+        }
+    }
+</script>
+
 {% endblock %}

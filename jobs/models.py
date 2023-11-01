@@ -8,7 +8,7 @@ class Employer(models.Model):
     contact_email = models.EmailField()
     website = models.URLField(blank=True, null=True)
     description = models.TextField()
-    logo = models.ImageField(upload_to='employer_logos/', blank=True, null=True)
+    logo = models.ImageField(upload_to='employer_logos', blank=True, null=True,default='avatar.jpg')
 
     def __str__(self):
         return self.company_name
@@ -44,7 +44,7 @@ class JobSeeker(models.Model):
     contact_email = models.EmailField()
     skills = models.TextField()
     resume = models.FileField(upload_to='job_seeker_resumes/', blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/', blank=True, null=True,default='avatar.jpg')
 
 
 class Application(models.Model):
@@ -52,6 +52,6 @@ class Application(models.Model):
     email = models.EmailField()
     resume = models.FileField(upload_to='resumes/')
     cover_letter = models.TextField()
-    # apply_at = models.DateTimeField(auto_now_add=True)
+    apply_at = models.DateTimeField(auto_now_add=True)
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
     applicant = models.ForeignKey(JobSeeker,on_delete=models.CASCADE)

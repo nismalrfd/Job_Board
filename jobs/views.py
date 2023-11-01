@@ -90,6 +90,9 @@ def user(request):
 
     search_in = request.GET.get('query')
     search = request.GET.get('location')
+    category_id = request.GET.get('category', 0)
+    categories = Category.objects.all()
+
 
     if search_in:
         job = JobListing.objects.filter(category__name__icontains=search_in,
@@ -97,6 +100,8 @@ def user(request):
 
     context = {
         'jobs': job,
+        'categories': categories,
+        'category_id': int(category_id),
 
     }
     return render(request, 'user.html', context)

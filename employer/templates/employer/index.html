@@ -9,11 +9,8 @@
         {% if employer %}
 
         <div class="md:w-1/3">
-        {% if employer.logo %}
-            <img src="/employer_logos/{{employer.logo.url}}" alt="{{ employer.company_name }} Logo">
-        {% else %}
-            <p>No logo available</p>
-        {% endif %}
+        <img src="/media/{{ employer.logo}}" alt="{{ employer.company_name }} Logo" />
+
         </div>
 
         <div class="md:w-2/3 md:ml-6 mt-4 md:mt-0">
