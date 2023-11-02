@@ -202,6 +202,18 @@ def update_employer_profile(request):
 
     return render(request, 'employer/employer_profile.html', context)
 
+
+from django.http import JsonResponse
+
+def validate_username(request):
+    username = request.GET.get('username')
+
+    user_exists = User.objects.filter(username=username).exists()
+
+    response_data = {'user_exists': user_exists}
+    return JsonResponse(response_data)
+
+
 def logout_view(request):
     logout(request)
     return redirect('employer:employerLogin')

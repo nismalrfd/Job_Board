@@ -27,7 +27,7 @@ class Category(models.Model):
 
 class JobListing(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     expired = models.BooleanField(default=False)
     description = models.TextField()
@@ -44,7 +44,8 @@ class JobSeeker(models.Model):
     contact_email = models.EmailField()
     skills = models.TextField()
     resume = models.FileField(upload_to='job_seeker_resumes/', blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/', blank=True, null=True,default='avatar.jpg')
+    profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/',
+                                        blank=True, null=True,default='avatar.jpg')
 
 
 class Application(models.Model):

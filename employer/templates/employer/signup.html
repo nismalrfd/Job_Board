@@ -45,20 +45,20 @@
                         <label class="block text-gray-700 font-medium">Description</label>
                         <input type="text" name="description" id="description" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
                     </div>
-                    <div>
-                        <label class="block text-gray-700 font-medium">Username</label>
-                        <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
-                    </div>
+                     <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Username</label>
+                <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                <span id="username-message"></span>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Password</label>
+                <div class="relative rounded-lg">
+                    <input type="password" name="password" id="password" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
                 </div>
             </div>
-            <!-- Password Field -->
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 font-medium">Password</label>
-                <input type="password" name="password" id="password" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="confirm_password" class="block text-gray-700 font-medium">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+            <!-- Sign Up Button (disabled by default) -->
+            <div class="text-center">
+                <button type="submit" id="signup-button" class="bg-blue-500 text-white p-3 rounded-lg" disabled>Sign Up</button>
             </div>
             <!-- Sign Up Button -->
             <div class="text-center">
@@ -69,4 +69,34 @@
         <p class="mt-4 text-gray-600 text-center">Already have an account? <a href="{% url 'employer:employerLogin' %}" class="text-blue-500">Log in</a></p>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#username").on("input", function () {
+            validateUsername();
+        });
+
+        function validateUsername() {
+            var username = $("#username").val();
+
+            $.ajax({
+                url: "{% url 'validate_username' %}",
+                data: { username: username },
+                method: "GET",
+                success: function (data) {
+                    var user_exists = data.user_exists;
+                    var usernameMessage = $("#username-message");
+                    var signupButton = $("#signup-button");
+
+                    if (user_exists) {
+                        usernameMessage.text("Username is already taken.");
+                        signupButton.prop("disabled", true);
+                    } else {
+                        usernameMessage.text("");
+                        signupButton.prop("disabled", false);
+                    }
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

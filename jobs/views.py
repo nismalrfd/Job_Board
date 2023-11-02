@@ -65,7 +65,7 @@ def loginPage(request):
             user_obj = User.objects.filter(username=username)
             if not user_obj.exists():
                 messages.warning(request, 'User not Found ')
-                return redirect('/loginPage')
+                return redirect('/login')
             # if not Profile.objects.filter(user = user_obj).first().is_verified:
             #     messages.warning(request, 'your profile not verified..')
             #     raise Exception('profile not verified')
@@ -77,7 +77,7 @@ def loginPage(request):
                 return redirect('/')
 
             messages.warning(request, 'wrong password ')
-            return redirect('loginPage')
+            return redirect('login')
 
         except Exception as e:
             messages.warning(request, 'Something went wrong')
