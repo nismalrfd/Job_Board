@@ -109,7 +109,7 @@ def user(request):
 
 def job_details(request,pk):
     job = JobListing.objects.get(pk=pk)
-    related_job = JobListing.objects.filter(category=job.category)
+    related_job = JobListing.objects.filter(category__name=job.category).exclude(pk=pk)[0:3]
     context = {
         'job': job,
         'related_job': related_job
