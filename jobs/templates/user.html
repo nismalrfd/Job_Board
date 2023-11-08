@@ -42,14 +42,21 @@
     </ul>
     {% endif %}
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Loop through the jobs -->
-        {% for job in jobs %}
-        <div class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Loop through the jobs -->
+                {% for job in jobs %}
+              <div class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-100">
             <div class="p-6">
-                <h2 class="text-2xl font-semibold text-sky-500">{{ job.title }}</h2>
-                <p class="text-gray-500">Location: {{ job.location }}</p>
-                <p class="text-gray-500">Posted on: {{ job.created_at|date:"F j, Y" }}</p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden">
+                        <img src="{{ job.created_by.logo.url }}" alt="Company Logo">
+                    </div>
+                    <div class="ml-4">
+                        <h2 class="text-2xl font-semibold text-sky-500">{{ job.title }}</h2>
+                        <p class="text-gray-500">Location: {{ job.location }}</p>
+                        <p class="text-gray-500">Posted on: {{ job.created_at|date:"F j, Y" }}</p>
+                    </div>
+                </div>
                 <div class="mt-4">
                     <p class="text-sky-600 font-semibold">{{ job.category }}</p>
                 </div>
@@ -58,6 +65,7 @@
                 </div>
             </div>
         </div>
+
         {% endfor %}
     </div>
 </div>

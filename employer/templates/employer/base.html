@@ -41,7 +41,7 @@
     </div>
     <div class="md:flex items-center space-x-4">
         {% if request.user.is_authenticated %}
-        <a href="#" class="hover:text-sky-500">Profile</a>
+        <a href="{% url 'employer:employer' %}" class="hover:text-sky-500">Profile</a>
         <a href="{% url 'employer:logout' %}" class="hover:text-sky-500">Logout</a>
 
 
