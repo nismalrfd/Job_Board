@@ -42,7 +42,6 @@ class JobSeeker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # If using the built-in User model
     full_name = models.CharField(max_length=100)
     contact_email = models.EmailField()
-    skills = models.TextField()
     resume = models.FileField(upload_to='job_seeker_resumes/', blank=True, null=True)
     profile_picture = models.ImageField(upload_to='job_seeker_profile_pics/',
                                         blank=True, null=True,default='avatar.jpg')

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0823d8b7-d7b1-4e94-82d7-4bfdfa2445be" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/../employer/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employer/templates/employer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../employer/templates/employer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employer/templates/employer/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/../employer/templates/employer/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/migrations/0002_alter_jobseeker_profile_picture.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/migrations/0003_alter_joblisting_category.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../jobs/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/../jobs/templates/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/templates/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../jobs/templates/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../jobs/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jobs/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../jobs/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2XvdG89ZONZ8STYCB0YSPlL8t4c" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/nismal/Desktop/working/Jobnest"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0823d8b7-d7b1-4e94-82d7-4bfdfa2445be" name="Changes" comment="" />
+      <created>1699513388621</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699513388621</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

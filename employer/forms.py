@@ -73,7 +73,7 @@ class EmployerUserForm(forms.ModelForm):
 class EditUserForm(forms.ModelForm):
     class Meta:
         model = JobSeeker
-        fields = ('full_name', 'contact_email', 'resume', 'skills', 'profile_picture')
+        fields = ('full_name', 'contact_email', 'resume','profile_picture')
         widgets = {
             'full_name': forms.TextInput(attrs={
                 'class': INPUT_CLASSES
@@ -82,9 +82,6 @@ class EditUserForm(forms.ModelForm):
                 'class': INPUT_CLASSES
             }),
 
-            'skills': forms.Textarea(attrs={
-                'class': INPUT_CLASSES
-            }),
             'resume': forms.FileInput(attrs={
                 'class': INPUT_CLASSES
             }),

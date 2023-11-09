@@ -18,6 +18,7 @@ urlpatterns = [
     path('update_profile', views.update_profile, name='update_profile'),
 
     path('logout', views.logout_view, name='logout'),
+    path('check_username_availability/', views.check_username_availability, name='check_username_availability'),
 
 ]
 

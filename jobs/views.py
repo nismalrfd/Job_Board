@@ -15,9 +15,8 @@ def registerPage(request):
             username = request.POST.get('username')
             full_name = request.POST.get('full_name')
             contact_email = request.POST.get('contact_email')
-            skills = request.POST.get('skills')
-            resume = request.POST.get('resume')
-            profile_picture = request.POST.get('profile_picture')
+            resume = request.FILES.get('resume')
+            profile_picture = request.FILES.get('profile_picture')
 
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
@@ -39,7 +38,6 @@ def registerPage(request):
                 user=user,
                 full_name=full_name,
                 contact_email=contact_email,
-                skills=skills,
                 resume=resume,
                 profile_picture=profile_picture,
             )
@@ -86,24 +84,28 @@ def loginPage(request):
 
 
 def user(request):
-    job = JobListing.objects.all()
+    try:
 
-    search_in = request.GET.get('query')
-    search = request.GET.get('location')
-    category_id = request.GET.get('category', 0)
-    categories = Category.objects.all()
+        job = JobListing.objects.all()
+
+        search_in = request.GET.get('query')
+        search = request.GET.get('location')
+        category_id = request.GET.get('category', 0)
+        categories = Category.objects.all()
 
 
-    if search_in:
-        job = JobListing.objects.filter(category__name__icontains=search_in,
-                                       location__icontains=search)
+        if search_in:
+            job = JobListing.objects.filter(category__name__icontains=search_in,
+                                           location__icontains=search)
 
-    context = {
-        'jobs': job,
-        'categories': categories,
-        'category_id': int(category_id),
+        context = {
+            'jobs': job,
+            'categories': categories,
+            'category_id': int(category_id),
 
-    }
+        }
+    except Exception as e:
+        messages.warning(request, 'Something went wrong')
     return render(request, 'user.html', context)
 
 
@@ -171,14 +173,19 @@ def apply_for_job(request,pk):
 
 @login_required(login_url='/login')
 def user_profile_update(request):
-    user = JobSeeker.objects.get(user=request.user)
-    applications = Application.objects.filter(applicant__user=request.user)
+    try:
 
-    context={
-        'user':user,
-        'applications': applications
+        user = JobSeeker.objects.get(user=request.user)
+        applications = Application.objects.filter(applicant__user=request.user)
 
-    }
+        context={
+            'user':user,
+            'applications': applications
+
+        }
+    except Exception as e:
+        messages.warning(request, 'Something went wrong')
+        return redirect('/')
     return render(request, 'userProfile.html',context)
 
 @login_required(login_url='/login')
@@ -202,3 +209,13 @@ def update_profile(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+
+def check_username_availability(request):
+    username = request.GET.get('username', None)
+    if username is not None:
+        is_available = not User.objects.filter(username=username).exists()
+        return JsonResponse({'available': is_available})
+    return JsonResponse({'available': False})

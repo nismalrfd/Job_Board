@@ -11,18 +11,18 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <!-- Personal Information Section -->
             <div class="mb-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="company_name" class="block text-gray-700 font-medium">Company Name</label>
-                        <input type="text" name="company_name" id="company_name" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="text" name="company_name" id="company_name" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
                     </div>
                     <div>
                         <label for="email" class="block text-gray-700 font-medium">Email</label>
-                        <input type="email" name="contact_email" id="email" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="email" name="contact_email" id="email" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
                     </div>
                 </div>
             </div>
@@ -31,11 +31,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 font-medium">Company Website</label>
-                        <input type="url" name="website" id="website" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="url" name="website" id="website" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
                     </div>
                     <div>
                         <label for="logo" class="block text-gray-700 font-medium">Logo</label>
-                        <input type="file" name="logo" id="logo" accept="image/*" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="file" name="logo" id="logo" accept="image/*" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
                     </div>
                 </div>
             </div>
@@ -44,12 +44,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 font-medium">Description</label>
-                        <input type="text" name="description" id="description" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="text" name="description" id="description" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium">Username</label>
-                        <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500">
+                        <input type="text" name="username" id="username" class="w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500" required>
+
                     </div>
+                    <div id="usernameValidationMessage"></div>
+
                 </div>
             </div>
             <!-- Password Field -->
@@ -71,6 +74,30 @@
     </div>
 </div>
 <script>
+
+$(document).ready(function() {
+    $('#username').on('input', function() {
+        const username = $(this).val();
+        if (username.length >= 3) {
+            $.ajax({
+                url: '{% url "check_username_availability" %}',
+                data: {'username': username},
+                method: 'GET',
+                success: function(data) {
+                    if (data.available) {
+                        $('#usernameValidationMessage').text('Username is available').css('color', 'green');
+                    } else {
+                        $('#usernameValidationMessage').text('Username is already taken').css('color', 'red');
+                    }
+                }
+            });
+        } else {
+            $('#usernameValidationMessage').text('').css('color', 'initial');
+        }
+    });
+});
+
+
     $(document).ready(function () {
         // When the form is submitted
         $("form").submit(function (event) {
