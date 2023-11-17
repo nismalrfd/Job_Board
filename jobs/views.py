@@ -80,7 +80,7 @@ def loginPage(request):
         except Exception as e:
             messages.warning(request, 'Something went wrong')
 
-    return render(request, 'login.html')
+    return render(request, 'employer/login.html')
 
 
 def user(request):
