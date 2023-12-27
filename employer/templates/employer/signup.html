@@ -4,6 +4,8 @@
 <div class="container mx-auto flex justify-center items-center h-screen">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
         <h1 class="text-2xl font-semibold text-center mb-4">Sign Up</h1>
+        <h2 class="text-2xl font-semibold text-center mb-4">Employer Page</h2>
+
         {% if messages %}
         <ul class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             {% for message in messages %}
@@ -66,13 +68,16 @@
             </div>
             <!-- Sign Up Button -->
             <div class="text-center">
-                <button type="submit" class="bg-blue-500 text-white p-3 rounded-lg">Sign Up</button>
+                <button type="submit"  id="submitButton" class="bg-blue-500 text-white p-3 rounded-lg">Sign Up</button>
+                
             </div>
         </form>
         <!-- Already Have an Account Link -->
         <p class="mt-4 text-gray-600 text-center">Already have an account? <a href="{% url 'login' %}" class="text-blue-500">Log in</a></p>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 
 $(document).ready(function() {
@@ -98,22 +103,20 @@ $(document).ready(function() {
 });
 
 
-    $(document).ready(function () {
-        // When the form is submitted
-        $("form").submit(function (event) {
-            var password = $("#password").val();
-            var confirmPassword = $("#confirm_password").val();
+$(document).ready(function() {
+    $('#password, #confirm_password').on('keyup', function() {
+        const password = $('#password').val();
+        const confirmPassword = $('#confirm_password').val();
+        
+        if (password !== confirmPassword) {
+            $('#submitButton').prop('disabled', true).addClass('bg-gray-600');
 
-            // Check if password and confirm password match
-            if (password !== confirmPassword) {
-                // Prevent form submission
-                event.preventDefault();
+        } else {
+            $('#submitButton').prop('disabled', false).addClass('bg-blue-500');
 
-                // Display an error message
-                alert("Password and Confirm Password must match.");
-            }
-        });
+        }
     });
+});
 </script>
 
 {% endblock %}
